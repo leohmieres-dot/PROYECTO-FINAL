@@ -1,0 +1,84 @@
+<nav class="navbar">
+    <div class="nav-info">
+        <span>Hola, <strong>{{usuario.username}}</strong></span>
+        <a href="/logout" class="btn-logout">Cerrar Sesión</a>
+    </div>
+</nav>
+
+<div class="container">
+    <h2 class="main-title">Mis Tableros</h2>
+
+    <section class="crear-tablero">
+        <form action="/api/tableros" method="POST" class="task-form-inline">
+            <input type="text" name="title" placeholder="Nombre del nuevo tablero..." required>
+            <button type="submit" class="btn-add">Crear Tablero</button>
+        </form>
+    </section>
+
+    <hr>
+
+    <div class="kanban-wrapper">
+        {{#each tableros}}
+            <div class="tablero-section">
+                <div class="tablero-header">
+                    <h2 class="tablero-title">📌 Tablero: {{this.title}}</h2>
+                    <form action="/eliminar-tablero" method="POST" onsubmit="return confirm('¿Borrar tablero?')">
+                        <input type="hidden" name="boardId" value="{{this.id}}">
+                        <button type="submit" class="btn-delete-board">Eliminar</button>
+                    </form>
+                </div>
+                
+                <div class="kanban-board">
+                    {{#each this.Lists}} 
+                        <div class="column">
+                            <div class="column-header">
+                                <h3>{{this.name}}</h3>
+                                <form action="/nueva-tarjeta" method="POST" class="quick-add">
+                                    <input type="text" name="tituloTarea" placeholder="+" required>
+                                    <input type="hidden" name="listaId" value="{{this.id}}">
+                                    <button type="submit" style="display:none"></button>
+                                </form>
+                            </div>
+
+                            <div class="cards-container">
+                                {{#each this.Cards}}
+                                    <div class="card" 
+                                        {{#if (eq ../name "En Progreso")}}style="border-left: 5px solid #f39c12;"{{/if}} 
+                                        {{#if (eq ../name "Finalizado")}}style="border-left: 5px solid #27ae60; opacity: 0.7;"{{/if}}>
+                                        
+                                        <div class="card-top">
+                                            <p {{#if (eq ../name "Finalizado")}}style="text-decoration: line-through; color: #7f8c8d;"{{/if}}>
+                                                {{this.titulo}}
+                                            </p>
+                                            <form action="/eliminar-tarea" method="POST">
+                                                <input type="hidden" name="cardId" value="{{this.id}}">
+                                                <button type="submit" class="btn-delete-task">×</button>
+                                            </form>
+                                        </div>
+
+                                        {{!-- BOTONES DE MOVIMIENTO --}}
+                                        {{#if (eq ../name "Pendiente")}}
+                                            <form action="/mover-tarea" method="POST">
+                                                <input type="hidden" name="cardId" value="{{this.id}}">
+                                                <input type="hidden" name="nuevoEstado" value="En Progreso">
+                                                <button type="submit" class="btn-move">Empezar →</button>
+                                            </form>
+                                        {{/if}}
+
+                                        {{#if (eq ../name "En Progreso")}}
+                                            <form action="/mover-tarea" method="POST">
+                                                <input type="hidden" name="cardId" value="{{this.id}}">
+                                                <input type="hidden" name="nuevoEstado" value="Finalizado">
+                                                <button type="submit" class="btn-move" style="background-color: #f39c12;">Finalizar ✔</button>
+                                            </form>
+                                        {{/if}}
+                                    </div>
+                                {{/each}}
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</div>

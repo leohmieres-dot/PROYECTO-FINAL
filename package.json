@@ -1,0 +1,34 @@
+{
+  "name": "kanbanpro",
+  "version": "1.0.0",
+  "description": "Sprint 1 de KanbanPro",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "bg": "^1.0.0",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.3.1",
+    "express": "^4.21.0",
+    "hbs": "^4.2.0",
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.20.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leohmieres-dot/EF-M6.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/leohmieres-dot/EF-M6/issues"
+  },
+  "homepage": "https://github.com/leohmieres-dot/EF-M6#readme"
+}
